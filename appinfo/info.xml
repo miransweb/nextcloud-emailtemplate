@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>custom_email_template</id>
+    <name>Custom Email Template</name>
+    <summary>Custom email templates voor The Good Cloud</summary>
+    <description>
+        Deze app past de email templates aan voor alle systeem emails,
+        inclusief welkomstmails, met een custom design.
+    </description>
+    <version>1.0.0</version>
+    <licence>agpl</licence>
+    <author>The Good Cloud</author>
+    <namespace>CustomEmailTemplate</namespace>
+    <category>customization</category>
+    <bugs>https://github.com/thegoodcloud/custom-email-template/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="25" max-version="30"/>
+    </dependencies>
+</info>
