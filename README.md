@@ -27,4 +27,4 @@ $CONFIG = array (
 
 ## Template aanpassen
 
-Bewerk het bestand: `lib/EmailTemplate.php`
+Bewerk het bestand: `lib/CustomEmailTemplate.php`
