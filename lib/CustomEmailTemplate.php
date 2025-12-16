@@ -54,7 +54,7 @@ class CustomEmailTemplate extends EMailTemplate {
     /**
      * Overschrijf addBodyText om verificatiecode te vangen
      */
-    public function addBodyText(string $text, string $plainText = ''): void {
+    public function addBodyText(string $text, $plainText = ''): void {
         // Probeer verificatiecode uit de tekst te halen
         if ($this->isVerificationEmail && empty($this->verificationCode)) {
             // Zoek naar patronen zoals "code: XXXXX" of "Verificatiecode: XXXXX"
