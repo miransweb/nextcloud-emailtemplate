@@ -51,19 +51,19 @@ class CustomEmailTemplate extends EMailTemplate {
         parent::setSubject($subject);
     }
 
-    /**
-     * Overschrijf addBodyText om verificatiecode te vangen
-     */
+    
     public function addBodyText(string $text, $plainText = ''): void {
-        // Probeer verificatiecode uit de tekst te halen
-        if ($this->isVerificationEmail && empty($this->verificationCode)) {
-            // Zoek naar patronen zoals "code: XXXXX" of "Verificatiecode: XXXXX"
-            if (preg_match('/(?:code|verificatiecode)[:\s]+([A-Za-z0-9]+)/i', $text, $matches)) {
-                $this->verificationCode = $matches[1];
+       
+        if (empty($this->verificationCode)) {
+          
+            if (preg_match('/[Vv]erification\s+code[:\s]+([A-Za-z0-9-]+)/i', $text, $matches)) {
+                $this->verificationCode = trim($matches[1]);
+                $this->isVerificationEmail = true;
             }
-            // Zoek ook naar standalone codes (meestal 6-10 karakters, alfanumeriek)
-            if (empty($this->verificationCode) && preg_match('/\b([A-Z0-9]{6,10})\b/', $text, $matches)) {
-                $this->verificationCode = $matches[1];
+            
+            elseif (preg_match('/[Vv]erificatiecode[:\s]+([A-Za-z0-9-]+)/i', $text, $matches)) {
+                $this->verificationCode = trim($matches[1]);
+                $this->isVerificationEmail = true;
             }
         }
         parent::addBodyText($text, $plainText);
@@ -72,12 +72,12 @@ class CustomEmailTemplate extends EMailTemplate {
     /**
      * Overschrijf addBodyButton om verificatie URL en code te vangen
      */
-    public function addBodyButton(string $text, string $url, string $plainText = ''): void {
+    public function addBodyButton(string $text, string $url, $plainText = ''): void {
         if ($this->isVerificationEmail) {
             if (empty($this->verificationUrl)) {
                 $this->verificationUrl = $url;
             }
-            // Haal verificatiecode uit URL als fallback (staat vaak aan het einde)
+            // Haal verificatiecode uit URL als fallback 
             // URL format: .../register/TOKEN/CODE
             if (empty($this->verificationCode) && preg_match('/\/([A-Za-z0-9]{6,12})$/', $url, $matches)) {
                 $this->verificationCode = $matches[1];
@@ -87,7 +87,7 @@ class CustomEmailTemplate extends EMailTemplate {
     }
 
     /**
-     * Genereer de volledige HTML voor de welkomstmail
+     * HTML voor de welkomstmail
      */
     protected function getWelcomeEmailHtml(): string {
         $logoUrl = $this->themingDefaults->getLogo();
@@ -183,7 +183,7 @@ class CustomEmailTemplate extends EMailTemplate {
     }
 
     /**
-     * Genereer de volledige HTML voor de verificatie-email
+     * HTML voor de verificatie-email
      */
     protected function getVerificationEmailHtml(): string {
         $logoUrl = $this->themingDefaults->getLogo();
@@ -283,7 +283,7 @@ class CustomEmailTemplate extends EMailTemplate {
     }
 
     /**
-     * Genereer plain text versie van verificatie-email
+     * plain text versie van verificatie-email
      */
     protected function getVerificationEmailPlainText(): string {
         $verificationCode = $this->verificationCode;
@@ -314,7 +314,7 @@ This is an automatically sent email, please do not reply.
     }
 
     /**
-     * Genereer plain text versie van welkomstmail
+     * plain text versie van welkomstmail
      */
     protected function getWelcomeEmailPlainText(): string {
         $serverUrl = $this->serverUrl;
