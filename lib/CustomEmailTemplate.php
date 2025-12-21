@@ -51,7 +51,8 @@ class CustomEmailTemplate extends EMailTemplate {
         }
 
         // Detecteer welkomstmail
-        $welcomeKeywords = ['welcome', 'welkom', 'aboard'];
+        // "Your ... account was created" of "welcome" of "welkom"
+        $welcomeKeywords = ['welcome', 'welkom', 'aboard', 'account was created', 'account created'];
         foreach ($welcomeKeywords as $keyword) {
             if (stripos($subject, $keyword) !== false) {
                 $this->isWelcomeEmail = true;
