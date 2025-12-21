@@ -108,11 +108,7 @@ class CustomEmailTemplate extends EMailTemplate {
      * HTML voor de welkomstmail
      */
     protected function getWelcomeEmailHtml(): string {
-        $logoUrl = $this->themingDefaults->getLogo();
-        // Maak logo URL absoluut als het een relatief pad is
-        if (strpos($logoUrl, 'http') !== 0) {
-            $logoUrl = rtrim($this->serverUrl, '/') . '/' . ltrim($logoUrl, '/');
-        }
+        $logoUrl = 'https://thegood.cloud/wp-content/uploads/2024/06/favicon.webp';
         $serverUrl = $this->serverUrl;
 
         return '<!DOCTYPE html>
@@ -208,11 +204,7 @@ class CustomEmailTemplate extends EMailTemplate {
      * HTML voor de verificatie-email
      */
     protected function getVerificationEmailHtml(): string {
-        $logoUrl = $this->themingDefaults->getLogo();
-        // Maak logo URL absoluut als het een relatief pad is
-        if (strpos($logoUrl, 'http') !== 0) {
-            $logoUrl = rtrim($this->serverUrl, '/') . '/' . ltrim($logoUrl, '/');
-        }
+        $logoUrl = 'https://thegood.cloud/wp-content/uploads/2024/06/favicon.webp';
         $verificationCode = htmlspecialchars($this->verificationCode);
         $verificationUrl = htmlspecialchars($this->verificationUrl ?: $this->serverUrl);
 
