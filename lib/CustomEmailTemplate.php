@@ -32,7 +32,8 @@ class CustomEmailTemplate extends EMailTemplate {
     ) {
         parent::__construct($themingDefaults, $urlGenerator, $l10nFactory, $logoWidth, $logoHeight, $emailId, $data);
 
-        $this->serverUrl = $this->themingDefaults->getBaseUrl();
+        // Haal de absolute base URL uit de urlGenerator
+        $this->serverUrl = $urlGenerator->getAbsoluteURL('/');
     }
 
     /**
@@ -108,6 +109,10 @@ class CustomEmailTemplate extends EMailTemplate {
      */
     protected function getWelcomeEmailHtml(): string {
         $logoUrl = $this->themingDefaults->getLogo();
+        // Maak logo URL absoluut als het een relatief pad is
+        if (strpos($logoUrl, 'http') !== 0) {
+            $logoUrl = rtrim($this->serverUrl, '/') . '/' . ltrim($logoUrl, '/');
+        }
         $serverUrl = $this->serverUrl;
 
         return '<!DOCTYPE html>
@@ -204,6 +209,10 @@ class CustomEmailTemplate extends EMailTemplate {
      */
     protected function getVerificationEmailHtml(): string {
         $logoUrl = $this->themingDefaults->getLogo();
+        // Maak logo URL absoluut als het een relatief pad is
+        if (strpos($logoUrl, 'http') !== 0) {
+            $logoUrl = rtrim($this->serverUrl, '/') . '/' . ltrim($logoUrl, '/');
+        }
         $verificationCode = htmlspecialchars($this->verificationCode);
         $verificationUrl = htmlspecialchars($this->verificationUrl ?: $this->serverUrl);
 
