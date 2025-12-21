@@ -82,14 +82,19 @@ class CustomEmailTemplate extends EMailTemplate {
     }
 
     /**
-     * Overschrijf addBodyButton om verificatie URL en code te vangen
+     * Overschrijf addBodyButton om verificatie URL en server URL te vangen
      */
     public function addBodyButton(string $text, string $url, $plainText = ''): void {
+        // Haal de basis server URL uit de button URL
+        if (preg_match('/^(https?:\/\/[^\/]+)/', $url, $matches)) {
+            $this->serverUrl = $matches[1];
+        }
+
         if ($this->isVerificationEmail) {
             if (empty($this->verificationUrl)) {
                 $this->verificationUrl = $url;
             }
-            // Haal verificatiecode uit URL als fallback 
+            // Haal verificatiecode uit URL als fallback
             // URL format: .../register/TOKEN/CODE
             if (empty($this->verificationCode) && preg_match('/\/([A-Za-z0-9]{6,12})$/', $url, $matches)) {
                 $this->verificationCode = $matches[1];
