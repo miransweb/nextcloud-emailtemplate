@@ -9,6 +9,9 @@
 namespace OCA\CustomEmailTemplate;
 
 use OC\Mail\EMailTemplate;
+use OCP\Defaults;
+use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 
 class CustomEmailTemplate extends EMailTemplate {
 
@@ -18,8 +21,16 @@ class CustomEmailTemplate extends EMailTemplate {
     protected $verificationCode = '';
     protected $verificationUrl = '';
 
-    public function __construct($defaults, $urlGenerator, $l10n, $config) {
-        parent::__construct($defaults, $urlGenerator, $l10n, $config);
+    public function __construct(
+        Defaults $themingDefaults,
+        IURLGenerator $urlGenerator,
+        IFactory $l10nFactory,
+        ?int $logoWidth,
+        ?int $logoHeight,
+        string $emailId,
+        array $data,
+    ) {
+        parent::__construct($themingDefaults, $urlGenerator, $l10nFactory, $logoWidth, $logoHeight, $emailId, $data);
 
         $this->serverUrl = $this->themingDefaults->getBaseUrl();
     }
